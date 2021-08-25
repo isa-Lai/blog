@@ -5,4 +5,4 @@ order: 4
 ---
 
 
-Check [Isa Lai's Personal Site](isa-lai.github.io) for more info.
+> **Note**: Add Markdown syntax content to file `_tabs/about.md` and it will show up on this page.

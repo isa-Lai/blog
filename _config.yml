@@ -1,14 +1,15 @@
 # The Site Configuration
 
 # Import the theme
-theme: jekyll-theme-chirpy
+theme: 
 
 # Only if your site type is GitHub Project sites and doesn't have a custom domain,
 # change below value to '/projectname'.
 baseurl: '/blog'
 
-# The language of the site layout › http://www.lingoes.net/en/translator/langcode.htm
-# Go to folder '_data/locales' to check the available language options
+# The language of the webpage › http://www.lingoes.net/en/translator/langcode.htm
+# If it has the same name as one of the files in folder `_data/locales`, the layout language will also be changed,
+# otherwise, the layout language will use the default value of 'en'.
 lang: en
 
 # Change to your timezone › http://www.timezoneconverter.com/cgi-bin/findzone/findzone
@@ -19,16 +20,16 @@ timezone: Asia/Shanghai
 
 title: Isa Blog                          # the main title
 
-tagline: Library of My Knowledges   # it will display as the sub-title
+tagline: Library of My Knowledge  # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
-  My note and article archive
+  Isa Lai Blog
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
 url: 'https://isa-lai.github.io'
 
 github:
-  username: isa-lai            # change to your github username
+  username: isa-lai             # change to your github username
 
 twitter:
   username: twitter_username            # change to your twitter username
@@ -36,8 +37,8 @@ twitter:
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: Isabelle Lai
-  email: isabelle-lai@outlook.com            # change to your email address
+  name: Isa-Lai
+  email: isabelle-lai@outlook.com          # change to your email address
   links:
     # The first element serves as the copyright owner's link
     - https://twitter.com/username      # change to your twitter homepage
@@ -76,10 +77,10 @@ theme_mode:   # [light|dark]
 # will be added to all image (site avatar & posts' images) paths starting with '/'
 #
 # e.g. 'https://cdn.com'
-img_cdn: '/assets/img/favicons/logo'
+img_cdn: ''
 
 # the avatar on sidebar, support local or CORS resources
-avatar: https://cdn.jsdelivr.net/gh/cotes2020/chirpy-images/commons/avatar.jpg
+avatar: /assets/img/favicons/android-chrome-512x512.png
 
 # boolean type, the global switch for ToC in posts.
 toc: true
@@ -166,3 +167,10 @@ jekyll-archives:
   permalinks:
     tag: /tags/:name/
     category: /categories/:name/
+
+plugins:
+  - jekyll-paginate
+  - jekyll-redirect-from
+  - jekyll-seo-tag
+  - jekyll-archives
+  - jekyll-sitemap
