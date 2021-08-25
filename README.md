@@ -1,2 +1,2 @@
 # blog
-Isa Blog
+Isa Lai's Blog
