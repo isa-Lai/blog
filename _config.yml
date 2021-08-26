@@ -29,7 +29,7 @@ email: isabelle-lai@outlook.com
 author: Isa-Lai
 copyright: Copyright © 2021
 description: >- # this means to ignore newlines until "baseurl:"
-  My Note Archive
+  Isabelle Lai's Note Archive
 
 baseurl: "/blog" # the subpath of your site, e.g. /blog
 url: "http://isa-lai.com" # the base hostname & protocol for your site, e.g. http://example.com
@@ -168,12 +168,12 @@ paginate: 5
 #   shortname: "Your Disqus username"
 
 # Gitment comments
-# gitment:
-#   username: "Your GitHub username"
-#   repo: "The repo to store comments"
-#   client_id: "Your client ID"
-#   client_secret: "Your client secret"
-#   redirect_uri: "Your redirect url"   # If you use a custom domain name
+gitment:
+  username: "isa-lai"
+  repo: "blog"
+  client_id: "76358f14924dc955e202"
+  client_secret: "89b3b40a2650bb298128568317a6e5e9b14a0846"
+  redirect_uri: "https://isa-lai.com/blog"   # If you use a custom domain name
 
 # Build settings
 # highlighter: none
