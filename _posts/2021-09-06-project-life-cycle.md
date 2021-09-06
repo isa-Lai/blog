@@ -12,7 +12,6 @@ graph TD
 A(Initiate) --> B(Plan)
   B --> C(Execute)
   C --> D(Close)
-  D --> A
 ```
 
 ### Initiate
@@ -65,15 +64,52 @@ Goal is clear, but not suitable for many change
 - DOne in pieces
 
 #### Comparison
-|                         | Waterfall                                                                                                                                                                                 | Agile                                                                                                                                                                            |   |   |
-|-------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---|---|
-|  Project manager's role | An active leader by prioritizing and assigning tasks to team members.                                                                                                                     | Agile project manager (or Scrum Master) acts primarily as a facilitator, removing any barriers the team faces.   Team shares more responsibility in managing their own work.     |   |   |
-| Scope                   | Project deliverables and plans are well-established and documented in the early stages of initiating and planning.  Changes go through a formal change request process.                   | Planning happens in shorter iterations and focuses on delivering value quickly.   Subsequent iterations are adjusted in response to feedback or unforeseen issues.               |   |   |
-| Schedule                | Follows a mostly linear path through the initiating, planning, executing, and closing phases of the project.                                                                              | Time is organized into phases called Sprints. Each Sprint has a defined duration, with a set list of deliverables planned at the start of the Sprint.                            |   |   |
-| Cost                    | Costs are kept under control by careful estimation up front and close monitoring throughout the life cycle of the project.                                                                | Costs and schedule could change with each iteration.                                                                                                                             |   |   |
-| Quality                 | Project manager makes plans and clearly defines criteria to measure quality at the beginning of the project.                                                                              | Team solicits ongoing stakeholder input and user feedback by testing products in the field and regularly implementing improvements.                                              |   |   |
-| Communication           | Project manager continually communicates progress toward milestones and other key indicators to stakeholders, ensuring that the project is on track to meet the customer’s expectations.  | Team is customer-focused, with consistent communication between users and the project team.                                                                                      |   |   |
-| Stakeholders            | Project manager continually manages and monitors stakeholder engagement to ensure the project is on track.                                                                                | Team frequently provides deliverables to stakeholders throughout the project. Progress toward milestones is dependent upon stakeholder feedback.                                 |   |   |
+<table class="tg">
+<thead>
+  <tr>
+    <th class="tg-0pky"></th>
+    <th class="tg-0pky">Waterfall</th>
+    <th class="tg-0pky">Agile</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-0pky"> Project manager's role</td>
+    <td class="tg-0pky">An active leader by prioritizing and assigning tasks to team members.</td>
+    <td class="tg-0pky">Agile project manager (or Scrum Master) acts primarily as a facilitator, removing any barriers the team faces.   Team shares more responsibility in managing their own work.    </td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">Scope</td>
+    <td class="tg-0pky">Project deliverables and plans are well-established and documented in the early stages of initiating and planning.&nbsp;&nbsp;Changes go through a formal change request process. </td>
+    <td class="tg-0pky">Planning happens in shorter iterations and focuses on delivering value quickly.   Subsequent iterations are adjusted in response to feedback or unforeseen issues.</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">Schedule</td>
+    <td class="tg-0pky">Follows a mostly linear path through the initiating, planning, executing, and closing phases of the project.  </td>
+    <td class="tg-0pky">Time is organized into phases called Sprints. Each Sprint has a defined duration, with a set list of deliverables planned at the start of the Sprint. </td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">Cost</td>
+    <td class="tg-0pky">Costs are kept under control by careful estimation up front and close monitoring throughout the life cycle of the project. </td>
+    <td class="tg-0pky">Costs and schedule could change with each iteration. </td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">Quality</td>
+    <td class="tg-0pky">Project manager makes plans and clearly defines criteria to measure quality at the beginning of the project.</td>
+    <td class="tg-0pky">Team solicits ongoing stakeholder input and user feedback by testing products in the field and regularly implementing improvements.</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">Communication</td>
+    <td class="tg-0pky">Project manager continually communicates progress toward milestones and other key indicators to stakeholders, ensuring that the project is on track to meet the customer’s expectations. </td>
+    <td class="tg-0pky">Team is customer-focused, with consistent communication between users and the project team.</td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">Stakeholders</td>
+    <td class="tg-0pky">Project manager continually manages and monitors stakeholder engagement to ensure the project is on track.  </td>
+    <td class="tg-0pky">Team frequently provides deliverables to stakeholders throughout the project. Progress toward milestones is dependent upon stakeholder feedback.</td>
+  </tr>
+</tbody>
+</table>
 
 ### Lean Six Sigma
 Process for Improvement (DMAIC)
