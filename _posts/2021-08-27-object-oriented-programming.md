@@ -3,7 +3,7 @@ layout: post
 title: Object-oriented Programming
 subtitle: OOP of Java
 categories: Java
-tags: [Java,CS]
+tags: [Java,CS,OOP]
 ---
 
 ## What is OOP?
