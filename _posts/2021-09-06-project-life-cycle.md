@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Project Life Cycle and Methodologies
-categories: PM
-tags: [PM,Management]
+categories: Project Management
+tags: [Project Management,Management]
 ---
 
 ## General Life Cycle
