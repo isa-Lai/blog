@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Strategy Pattern
-categories: Design Pattern
+categories: Design_Pattern
 tags: [Design Pattern]
 ---
 
