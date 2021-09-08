@@ -21,7 +21,7 @@ Strategy Pattern encapsulates algotithm.
 ## Pros & Cons
 Pros
 1. Can easily change algorithm
-2. Avoid using many judeg (`if` statement)
+2. Avoid using many judge (`if` statement)
 3. Easily extantable
 
 Cons
