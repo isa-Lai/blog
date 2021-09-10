@@ -10,6 +10,6 @@ date: 2021-08-26
 
 ## Isa Blog
 
-This blog is for archive my personal note. Check [https://isa-lai.com] for more info about me
+This blog is for archive my personal note. Check [Isa Protfolio](isa-lai.com) for more info about me
 
 <!-- more -->

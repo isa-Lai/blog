@@ -229,11 +229,11 @@ widgets:
         # Author's current location
         location: CA
         # URL or path to the avatar image
-        avatar: /img/icon.svg
+        avatar: /img/logo.svg
         # Whether show the rounded avatar image
         avatar_rounded: false
         # Email address for the Gravatar
-        gravatar: isabelle-lai@outlook.com
+        gravatar: 
         # URL or path for the follow button
         follow_link: 'https://github.com/isa-lai'
         # Links to be shown on the bottom of the profile widget
