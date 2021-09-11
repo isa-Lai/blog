@@ -199,10 +199,10 @@ donates:
         qrcode: ''
 # Share plugin configurations
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Share/
-#share:
-#    type: sharethis
-#    # URL to the ShareThis share plugin script
-#    install_url: ''
+share:
+    type: sharethis
+    # URL to the ShareThis share plugin script
+    install_url: 'https://platform-api.sharethis.com/js/sharethis.js#property=613b2167f7277c0019b0d64f&product=inline-share-buttons'
 # Sidebar configurations.
 # Please be noted that a sidebar is only visible when it has at least one widget
 sidebar:
@@ -229,7 +229,7 @@ widgets:
         # Author's current location
         location: CA
         # URL or path to the avatar image
-        avatar: /img/logo.svg
+        avatar: /img/logo.png
         # Whether show the rounded avatar image
         avatar_rounded: false
         # Email address for the Gravatar
@@ -241,15 +241,15 @@ widgets:
             Github:
                 icon: fab fa-github
                 url: 'https://github.com/isa-lai'
-            Facebook:
-                icon: fab fa-facebook
-                url: 'https://facebook.com'
-            Twitter:
-                icon: fab fa-twitter
-                url: 'https://twitter.com'
-            Dribbble:
-                icon: fab fa-dribbble
-                url: 'https://dribbble.com'
+            #Facebook:
+            #    icon: fab fa-facebook
+            #    url: 'https://facebook.com'
+            #Twitter:
+            #    icon: fab fa-twitter
+            #    url: 'https://twitter.com'
+            #Dribbble:
+            #    icon: fab fa-dribbble
+            #    url: 'https://dribbble.com'
             RSS:
                 icon: fas fa-rss
                 url: /
