@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://isa-lai.com/blog/2021/09/10/aws-cloud-practitioner-billing/</loc>
+    
+    <lastmod>2021-09-10</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/2021/08/26/welcome-to-this-page/</loc>
+    
+    <lastmod>2021-09-10</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/2021/09/08/strategy-pattern/</loc>
+    
+    <lastmod>2021-09-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/2021/09/06/project-life-cycle/</loc>
+    
+    <lastmod>2021-09-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/2021/09/09/aws-cloud-practitioner-1/</loc>
+    
+    <lastmod>2021-09-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/2021/09/05/Inheritance-1/</loc>
+    
+    <lastmod>2021-09-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/2021/08/27/object-oriented-programming/</loc>
+    
+    <lastmod>2021-09-09</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/about/index.html</loc>
+    
+    <lastmod>2021-09-09</lastmod>
+    
+  </url>
+  
+
+  <url>
+    <loc>http://isa-lai.com/blog</loc>
+    <lastmod>2021-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  
+  <url>
+    <loc>http://isa-lai.com/blog/tags/Java/</loc>
+    <lastmod>2021-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/tags/CS/</loc>
+    <lastmod>2021-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/tags/OOP/</loc>
+    <lastmod>2021-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/tags/AWS/</loc>
+    <lastmod>2021-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/tags/Project-Management/</loc>
+    <lastmod>2021-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/tags/Design-Pattern/</loc>
+    <lastmod>2021-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/tags/About/</loc>
+    <lastmod>2021-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+
+  
+  <url>
+    <loc>http://isa-lai.com/blog/categories/Programming/</loc>
+    <lastmod>2021-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/categories/Certification/</loc>
+    <lastmod>2021-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/categories/Programming/Java/</loc>
+    <lastmod>2021-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/categories/Management/</loc>
+    <lastmod>2021-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/categories/SE/</loc>
+    <lastmod>2021-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/categories/Certification/AWS/</loc>
+    <lastmod>2021-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/categories/About/</loc>
+    <lastmod>2021-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/categories/Management/Project-Management/</loc>
+    <lastmod>2021-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/categories/SE/Design-Pattern/</loc>
+    <lastmod>2021-09-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+</urlset>
