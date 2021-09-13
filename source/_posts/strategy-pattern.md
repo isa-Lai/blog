@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Strategy Pattern
-categories: [SE,Design Pattern]
+categories: [CE,Design Pattern]
 tags: [Design Pattern]
 toc: true
 date: 2021-09-08

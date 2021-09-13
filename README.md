@@ -13,9 +13,12 @@ Check [Isa Blog](isa-lai.com/blog) for more articles. Check [Isa Protfolio](isa-
 - [Object-oriented Programming](/source/_posts/object-oriented-programming.md)
 - [Inheritance (1) - Base](/source/_posts/Inheritance-1.md)
 
-### Software Engineering
+### Computer Science
 #### Design Pattern
 - [Strategy Pattern](/source/_posts/strategy-pattern.md)
+
+#### Operating System
+- [Process & Thread](/source/_posts/process-in-os.md)
 
 ### Project Management
 - [Project Life Cycle and Methodologies](/source/_posts/project-life-cycle.md)
