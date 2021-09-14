@@ -81,13 +81,6 @@
 
   
   <url>
-    <loc>http://isa-lai.com/blog/tags/AWS/</loc>
-    <lastmod>2021-09-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://isa-lai.com/blog/tags/Java/</loc>
     <lastmod>2021-09-14</lastmod>
     <changefreq>daily</changefreq>
@@ -109,6 +102,13 @@
   </url>
   
   <url>
+    <loc>http://isa-lai.com/blog/tags/AWS/</loc>
+    <lastmod>2021-09-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://isa-lai.com/blog/tags/Operating-System/</loc>
     <lastmod>2021-09-14</lastmod>
     <changefreq>daily</changefreq>
@@ -116,7 +116,7 @@
   </url>
   
   <url>
-    <loc>http://isa-lai.com/blog/tags/About/</loc>
+    <loc>http://isa-lai.com/blog/tags/Design-Pattern/</loc>
     <lastmod>2021-09-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -130,20 +130,13 @@
   </url>
   
   <url>
-    <loc>http://isa-lai.com/blog/tags/Design-Pattern/</loc>
+    <loc>http://isa-lai.com/blog/tags/About/</loc>
     <lastmod>2021-09-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
 
-  
-  <url>
-    <loc>http://isa-lai.com/blog/categories/Certification/</loc>
-    <lastmod>2021-09-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
   
   <url>
     <loc>http://isa-lai.com/blog/categories/Programming/</loc>
@@ -153,14 +146,7 @@
   </url>
   
   <url>
-    <loc>http://isa-lai.com/blog/categories/Certification/AWS/</loc>
-    <lastmod>2021-09-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://isa-lai.com/blog/categories/CS/</loc>
+    <loc>http://isa-lai.com/blog/categories/Certification/</loc>
     <lastmod>2021-09-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -174,7 +160,14 @@
   </url>
   
   <url>
-    <loc>http://isa-lai.com/blog/categories/About/</loc>
+    <loc>http://isa-lai.com/blog/categories/CS/</loc>
+    <lastmod>2021-09-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://isa-lai.com/blog/categories/Certification/AWS/</loc>
     <lastmod>2021-09-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -188,6 +181,13 @@
   </url>
   
   <url>
+    <loc>http://isa-lai.com/blog/categories/About/</loc>
+    <lastmod>2021-09-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://isa-lai.com/blog/categories/CS/Operating-System/</loc>
     <lastmod>2021-09-14</lastmod>
     <changefreq>daily</changefreq>
@@ -195,14 +195,14 @@
   </url>
   
   <url>
-    <loc>http://isa-lai.com/blog/categories/Management/Project-Management/</loc>
+    <loc>http://isa-lai.com/blog/categories/CS/Design-Pattern/</loc>
     <lastmod>2021-09-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://isa-lai.com/blog/categories/CS/Design-Pattern/</loc>
+    <loc>http://isa-lai.com/blog/categories/Management/Project-Management/</loc>
     <lastmod>2021-09-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
