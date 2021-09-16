@@ -1,0 +1,3 @@
+user-agent: *
+disallow:
+sitemap: https://isa-lai.com/blog/sitemap.xml

@@ -1,5 +1,5 @@
 # Blog
-This is my personal blog to store my notes and knowledge.
+This is my personal blog to archive my notes and knowledge.
 Check [Isa Blog](isa-lai.com/blog) for more articles. Check [Isa Protfolio](isa-lai.com) for more info about me.  
 
 ## Deployment
@@ -22,8 +22,10 @@ Check [Isa Blog](isa-lai.com/blog) for more articles. Check [Isa Protfolio](isa-
 
 ### Project Management
 - [Project Life Cycle and Methodologies](/source/_posts/project-life-cycle.md)
+- [Project Initiation](/source/_posts/project-initation.md)
 
 ### Certification & Exam
 #### Aws
 - [AWS Cloud Practitioner - Cloud Concept](/source/_posts/aws-cloud-practitioner-1.md)
 - [AWS Cloud Practitioner - Billing](/source/_posts/aws-cloud-practitioner-billing.md)
+- [AWS Cloud Practitioner - Technology](/source/_posts/aws-cloud-practitioner-tech.md)
