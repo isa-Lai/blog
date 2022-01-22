@@ -13,6 +13,63 @@ In all operating system, **Process**(进程) and **Thread**(线程) are importan
 ## Process
 A process is the execution of a program that allows you to perform the appropriate actions specified in a program.
 CPU (single core) swich quickly between different processes to perform (fake) parallel computing.
+- A program by itself is not a process
+- A process is an active entity
+- Is is possible that two processes could be associated with the same program
+
+### Process in Memory
+1. Test section - executable code
+2. Data - global variables
+3. Heap = memory tht is dynamically allocated during program run time
+4. Stack - Temporary dats storage when invoking functions
+
+### Execution and Trace
+- Process is used to excute machine instrctions residing in main memory
+- From the processor point of view, it execute instru from its collection of instruc in some sequence indecated by the changing values in the register known as the **Program counter PC** or **Instruction pointer**
+- Behavior of an individual process can be characterized by listing the sequence of instruction that execute for that process. Such listing is **Trace** of process (跟踪)
+- Can be characterized by showing the way in which the trace of various processes are interleaved
+  
+### Stage Process Model
+#### Two State
+- Running
+- Not-Running
+  - Processes in this stage is kept in **Queue**, waiting to run in a list
+
+![Two State Transition](https://slaystudy.com/wp-content/uploads/2020/07/2state.png)
+
+#### Five State
+- Blocked - cannot execute until some event occurs
+  - Their may be more than 1 Block Queue for arrange many process
+![Five State Transition](https://miro.medium.com/max/821/1*dhW-U0e6VFV7ML6UkiuEYQ.png)
+
+#### Seven State
+- See more detial in Suspend Process section below
+![Seven State Transition](https://www.researchgate.net/profile/Mohsen-Sharifi-6/publication/268347340/figure/fig9/AS:668228732870656@1536329553126/Seven-state-transition-diagram-The-NEW-TERMINATED-READY-RUNNING-and-BLOCKED-states.jpg)
+
+### Process Control Block
+**PCB** or **tack control block** with info of:
+- Process State
+  - New
+  - Ready
+  - Running
+  - Halt
+  - ...
+- Program Counter - address of next statement 
+- CPU Register - several register like accumulators, index, stack pointer ......
+- CPU-Scheduling Info
+  - Process priority
+  - pointer to scheduling queues
+  - other scheduling parameter
+- Memory-Management Info
+  - value of base and limit register
+  - pages tables
+  - segmentation table
+- Accounting info
+  - Amount of CPUand real time used
+  - time limits
+  - process number
+  - ...
+- I/O Status Info - list of I/O devices allocated to the process, a list of open list and ...
 
 ### Process Module
 #### Sequential Process
@@ -21,12 +78,41 @@ CPU (single core) swich quickly between different processes to perform (fake) pa
 - Process is an action, it have programm, input, output, and status.
 - If a program runs twice, it is two processes.
 
+### Suspended Process
+#### Definition
+- problem that process need to wait I/O
+- Solution
+  - Expand main memory
+  - **Swapping** - move some process form main memory to the disk using suspend
+
+![Seven State Transition](https://www.researchgate.net/profile/Mohsen-Sharifi-6/publication/268347340/figure/fig9/AS:668228732870656@1536329553126/Seven-state-transition-diagram-The-NEW-TERMINATED-READY-RUNNING-and-BLOCKED-states.jpg)
+
+- Ready: in main memory & available for execution
+- Blocked: in main memory & awaiting an event
+- Blocked, Suspend: In secondary memory & awaiting an event
+- Ready, Suspend: in secondary memory & available to execution as soom as it is loaded into main memory
+
+
+#### Cause
+- Swapping
+- Interactive user request
+- Timing - for periodically executed
+- Parent process request
+- Other OS reason - like if the process can cause problem
+
 ### Creation of Process
 Events that lead to process creation are
 - System initialization
-- Execution of a process creation system call by a running process
+- Interactive Log On
 - User request to create a new process
-- Batch job initialization
+- Batch job initialization - create in response to the submission of a job
+- Execution of a process creation system call by a running process (Spawned by existing process)
+  - Parent and chiled process
+
+
+Step:
+- Build data structure that used to manage the process
+- Allocates the address space to used by the process
 
 
 Some back-end process, like email, web page, are call **Daemon**(守护进程). This type of process sleep when it is not used. 
@@ -41,11 +127,20 @@ Process creation using fork():
 
 ### Termination of Process
 Causes of process termination are:
-- Execution is naturally completed. Process leavs the processor and releases all its resources.
-- Parent process requests for termination on child
-- Process tries to use a resource that it is not allowed
+- Normal Ternimation - Execution is naturally completed. Process leavs the processor and releases all its resources.
+- Parentm Request - Parent process requests for termination on child
+- Parent Termination - Parent end, child end
+- Memory Unavailable
+- Bounds Violation - access to memory that is not allowed
+- Time Limit Exceeded - run longer than a total time
+- Time Overrun - run longer n a certain event
+- Protection Error - using resource or file that is not allowed
+- Atithmetric Error - process try a prohibited computation like 1/0
 - Failure occurs (like I/O)
-- Kill by other process
+- Invalid Instrction
+- Orivilegde Instruction - attempts to use an ins reserved for the OS
+- Data Misuse - wrong type data
+- OS or Operator Intervention - kill process
 
 Termination in
 - UNIX: `exit`
@@ -96,6 +191,8 @@ Sample lowest level of execution when interrupt occurs
 
 Example:
 If processes have 80% I/O wait, it need 10 processes in memory to reduce CPU waste within 10%.
+
+
 
 
  
