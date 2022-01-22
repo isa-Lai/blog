@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>OS Background Knowledge - Isa Blog | Software Engineering</title><link rel="manifest" href="/blog/manifest.json"><meta name="application-name" content="Isabelle Lai&#039;s Blog"><meta name="msapplication-TileImage" content="/img/favicon.ico"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Isabelle Lai&#039;s Blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="All backgroud information needed for learning OS. Will be updated countineously."><meta property="og:type" content="blog"><meta property="og:title" content="OS Background Knowledge"><meta property="og:url" content="http://isa-lai.com/blog/2022/01/21/os-background/"><meta property="og:site_name" content="Isa Blog | Software Engineering"><meta property="og:description" content="All backgroud information needed for learning OS. Will be updated countineously."><meta property="og:locale" content="en_US"><meta property="og:image" content="https://media.cheggcdn.com/media/432/4327eaea-7f8b-41e6-908d-d979a4cdf51c/php2toTbi"><meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/OS-structure.svg/1200px-OS-structure.svg.png"><meta property="article:published_time" content="2022-01-21T22:42:33.000Z"><meta property="article:modified_time" content="2022-01-22T01:00:07.806Z"><meta property="article:author" content="Isa-Lai"><meta property="article:tag" content="Operating System"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="https://media.cheggcdn.com/media/432/4327eaea-7f8b-41e6-908d-d979a4cdf51c/php2toTbi"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://isa-lai.com/blog/2022/01/21/os-background/"},"headline":"OS Background Knowledge","image":["https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/OS-structure.svg/1200px-OS-structure.svg.png"],"datePublished":"2022-01-21T22:42:33.000Z","dateModified":"2022-01-22T01:00:07.806Z","author":{"@type":"Person","name":"Isa-Lai"},"publisher":{"@type":"Organization","name":"Isa Blog | Software Engineering","logo":{"@type":"ImageObject","url":"http://isa-lai.com/img/logo.png"}},"description":"All backgroud information needed for learning OS. Will be updated countineously."}</script><link rel="canonical" href="http://isa-lai.com/blog/2022/01/21/os-background/"><link rel="icon" href="/blog/img/favicon.ico"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/blog/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><!--!--><!--!--><meta name="generator" content="Hexo 5.4.0"></head><body class="is-3-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/blog/"><img src="/blog/img/logo.png" alt="Isa Blog | Software Engineering" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/blog/">Home</a><a class="navbar-item" href="/blog/archives">Archives</a><a class="navbar-item" href="/blog/categories">Categories</a><a class="navbar-item" href="/blog/tags">Tags</a><a class="navbar-item" href="/blog/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/isa-lai/blog"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2022-01-21T22:42:33.000Z" title="2022/1/21 下午5:42:33">2022-01-21</time></span><span class="level-item">Updated&nbsp;<time dateTime="2022-01-22T01:00:07.806Z" title="2022/1/21 下午8:00:07">2022-01-21</time></span><span class="level-item"><a class="link-muted" href="/blog/categories/CS/">CS</a><span> / </span><a class="link-muted" href="/blog/categories/CS/Operating-System/">Operating System</a></span><span class="level-item">7 minutes read (About 1078 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">OS Background Knowledge</h1><div class="content"><p>All backgroud information needed for learning OS. Will be updated countineously.</p>
+<span id="more"></span>
+
+<h2 id="OS-as-a-Resource-Manager"><a href="#OS-as-a-Resource-Manager" class="headerlink" title="OS as a Resource Manager"></a>OS as a Resource Manager</h2><ul>
+<li>File-System Management<ul>
+<li>Create, deleting files and directories</li>
+<li>Supporting primitives for manipulating files and directories</li>
+<li>Mapping files onto mass storage</li>
+<li>Backing up files on stable(nonvalatile storage media)</li>
+</ul>
+</li>
+<li>Mass-Storage Management<ul>
+<li>Mounting and unmounting storage devices</li>
+<li>Free-space management</li>
+<li>Storage allocation</li>
+<li>Disk scheduling</li>
+<li>Partitioning</li>
+<li>Protection</li>
+</ul>
+</li>
+<li>I/O System Management - via I/O subsystem<ul>
+<li>A memory-management component with - buffering, caching, and spooling</li>
+<li>Make general uniform device-friver interface</li>
+</ul>
+</li>
+<li>Cache management<ul>
+<li>info is kept in some storage system. Check cache before need a particular piece of info</li>
+<li>Cache manage in a multiprogram system becomes tricky and even more in a multiprocessor environment</li>
+<li>Cache size and cache replacement policy</li>
+</ul>
+</li>
+</ul>
+<h2 id="Evolution-of-OS"><a href="#Evolution-of-OS" class="headerlink" title="Evolution of OS"></a>Evolution of OS</h2><ol>
+<li>Serial Processing</li>
+<li>Simple Batch Systems</li>
+<li>Multi-programmed Batch Sysems</li>
+<li>Time-Sharing Systems</li>
+</ol>
+<h3 id="Difference"><a href="#Difference" class="headerlink" title="Difference"></a>Difference</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>Batch Multi-prgramming</th>
+<th>Time Sharing</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Principle Objective</td>
+<td>Max processor use</td>
+<td>Min response time</td>
+</tr>
+<tr>
+<td>Source of intructions to operate system</td>
+<td>Job control language JCL instructions provided with the job</td>
+<td>Commands entered at the terminal</td>
+</tr>
+</tbody></table>
+<h2 id="Dual-Mode-Operation"><a href="#Dual-Mode-Operation" class="headerlink" title="Dual Mode Operation"></a>Dual Mode Operation</h2><ul>
+<li>Kernal Model : Supervisor mode, system mode, privieged mode</li>
+<li>User Mode</li>
+</ul>
+<p>A mode bit kernel 0 or user 1 is used to indicate the current mode.</p>
+<h3 id="Kernel-Data-Structure"><a href="#Kernel-Data-Structure" class="headerlink" title="Kernel Data Structure"></a>Kernel Data Structure</h3><ol>
+<li>Array<ul>
+<li>Each lement can be accessed directly</li>
+</ul>
+</li>
+<li>List: Sequence of data value<ol>
+<li>Singly linked list</li>
+<li>Doubly linked list</li>
+<li>Circular linked list: last point to the first</li>
+</ol>
+</li>
+<li>Stacks</li>
+<li>Queues</li>
+<li>Tree / Binary Trees</li>
+<li>Hash functions</li>
+<li>Bitmaps: available table for resources</li>
+</ol>
+<p>Linux Kernal Data Structure</p>
+<ul>
+<li>Linked-list data structure details are in the include file <strong>&lt;linux/list.h&gt;</strong></li>
+<li>A queue in linus is know as <strong>kfifo</strong>, with implementation in <strong>kfifo.c</strong> file of <strong>kernel</strong> directory</li>
+<li>Implementation of the balanced binary search tree implementation using red-black trees can be found in the include file <strong>&lt;linux/rbtree.h&gt;</strong></li>
+</ul>
+<h2 id="Virtualization"><a href="#Virtualization" class="headerlink" title="Virtualization"></a>Virtualization</h2><ul>
+<li>Emulation - simulates computer hardware in software</li>
+<li>Virtualization - an OS that is natively compiled for a particular CPU architecture runs within another OS also native to that CPU</li>
+</ul>
+<h2 id="Distributed-System"><a href="#Distributed-System" class="headerlink" title="Distributed System"></a>Distributed System</h2><h3 id="Network"><a href="#Network" class="headerlink" title="Network"></a>Network</h3><h4 id="Communication-protocal"><a href="#Communication-protocal" class="headerlink" title="Communication protocal"></a>Communication protocal</h4><p>TCP/IP is the most common</p>
+<h4 id="Distance"><a href="#Distance" class="headerlink" title="Distance"></a>Distance</h4><ul>
+<li>Local Area Network (LAN): room</li>
+<li>Wide Area Network (WAN): building</li>
+<li>Metropolitan-Area Network (MAN): city</li>
+<li>Personal-Area Network (PAN): BlueToothand 802.11 or other wireless</li>
+</ul>
+<h4 id="Communication-Media"><a href="#Communication-Media" class="headerlink" title="Communication Media"></a>Communication Media</h4><ul>
+<li>Copper wires</li>
+<li>Fiber links</li>
+<li>Wireless trans between satellites</li>
+<li>Microware dishes</li>
+<li>Radio</li>
+<li>Infra-red</li>
+<li>….</li>
+</ul>
+<h2 id="Loader-and-linker"><a href="#Loader-and-linker" class="headerlink" title="Loader and linker"></a>Loader and linker</h2><p><img src="https://media.cheggcdn.com/media/432/4327eaea-7f8b-41e6-908d-d979a4cdf51c/php2toTbi" alt="Linker and loader"></p>
+<ul>
+<li><strong>Relocatable object file</strong> - source code in complied into object files by the compiler and is designed to be loaded into any physical memory localtion</li>
+<li><strong>Linker</strong>  combines the object files into a single binary <strong>executable</strong> file<ul>
+<li>also links the library object modules nedded by the program</li>
+</ul>
+</li>
+<li><strong>Loader</strong> brings the executable file into memory to run the program<ul>
+<li><strong>Relocation</strong> assign final addresses to program parts and adjusts code and data in program to match those address</li>
+</ul>
+</li>
+<li>Modern negeral-purpose systems dont link library into executables<ul>
+<li>but, <strong>hynamically linked libraries</strong> are loaded as needed, shared by all that use the same version of that same library</li>
+</ul>
+</li>
+</ul>
+<h2 id="Computer-System-Architechture"><a href="#Computer-System-Architechture" class="headerlink" title="Computer System Architechture"></a>Computer System Architechture</h2><ul>
+<li>Most use <strong>single general-purpose processor</strong><ul>
+<li>some use special-purpose</li>
+</ul>
+</li>
+<li><strong>Multiprocessor System</strong><ul>
+<li><strong>Parallel</strong> or <strong>tightly coupled systems</strong></li>
+<li>offer<ul>
+<li>increased throughput</li>
+<li>economy of scale</li>
+<li>increased reliability</li>
+</ul>
+</li>
+<li><strong>Two Type</strong><ul>
+<li>Asymmetric Multiprocessing (ASMP) - each processor is assigned a special task</li>
+<li>Symmetric Multiprocessing (SMP) - each processor performs all tasks</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Asymmetric</th>
+<th>Symmetric</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>All processor <strong>not</strong> equally</td>
+<td>All equal</td>
+</tr>
+<tr>
+<td>One master processor carries out the taskes of OS</td>
+<td>Carried out by all processor</td>
+</tr>
+<tr>
+<td>Processor cannot direct communicate with other processor (only via master)</td>
+<td>All can communicate by a shared memory</td>
+</tr>
+<tr>
+<td>Processes are categorized as master-slave</td>
+<td>A ready queue is used for taking up processes</td>
+</tr>
+<tr>
+<td>Cheaper</td>
+<td>Relatively costly</td>
+</tr>
+<tr>
+<td>Easier to design</td>
+<td>Complex</td>
+</tr>
+</tbody></table>
+<h3 id="Dual-Core-Design"><a href="#Dual-Core-Design" class="headerlink" title="Dual Core Design"></a>Dual Core Design</h3><ul>
+<li>A processor have two cores</li>
+<li>Each core has its own level 1 cache, but shared level 2 cache</li>
+</ul>
+<h3 id="Clustered-Systems"><a href="#Clustered-Systems" class="headerlink" title="Clustered Systems"></a>Clustered Systems</h3><ul>
+<li>like multiprocessor systems, but multiples systems are working together in this case</li>
+<li>combine cheap multiple processing unit to provide high performance and efficient systems</li>
+<li><strong>High-acailability service</strong> - continue even if one or more systems in the cluster fail</li>
+<li>Each node can monitor one or more of other nodes, in case of failure</li>
+<li>Users and clients see only a brief interruption of service</li>
+<li>Stotage shared by storage-area network <strong>SAN</strong></li>
+<li>Types:<ul>
+<li>Asymmetric clustering - one machine in hot-standby, other run application. If server fails, hot-standby becomes active server</li>
+<li>Symmetric clustering - multi nodes run app and monitor each other</li>
+</ul>
+</li>
+<li>Use:<ul>
+<li><strong>High-performance computing HPC</strong></li>
+<li><strong>Fault tolerant mass data storage</strong></li>
+<li><strong>Graceful degradation</strong></li>
+</ul>
+</li>
+<li>OS design considerations and issues<ul>
+<li>Load balancing</li>
+<li>Fair share of resources</li>
+<li>Communication overhead</li>
+</ul>
+</li>
+</ul>
+<h3 id="Hadoop-and-Big-Data"><a href="#Hadoop-and-Big-Data" class="headerlink" title="Hadoop and Big Data"></a>Hadoop and Big Data</h3><ul>
+<li><strong>High availability distributed object oriented platform</strong> - an open source sfwr framework for storing data and running app on clusters of commodity hardware</li>
+<li>In Java and run on Linux</li>
+<li>Provide massive storage for data, enormous processing power an handle huge # of concurrent tasks</li>
+<li>Not an OS, but frameware developed on top of Linux, giving it a distribured OS capability</li>
+<li>Its app can be written in many language</li>
+<li>Use it for big data</li>
+</ul>
+<h2 id="Computer-Environment"><a href="#Computer-Environment" class="headerlink" title="Computer Environment"></a>Computer Environment</h2><ol>
+<li>Traditional Computing</li>
+<li>Mobile Computing</li>
+<li>Client - Server Computing<ol>
+<li>Compute-server systems</li>
+<li>File-server system (most web server)</li>
+</ol>
+</li>
+<li>Peer to Peer P2P Computing<ul>
+<li>Every node is a server and client</li>
+</ul>
+</li>
+<li>Cloud Computing<ul>
+<li>Public Cloud</li>
+<li>Private</li>
+<li>Hybrid</li>
+<li>SaaS</li>
+<li>PaaS</li>
+<li>IaaS</li>
+</ul>
+</li>
+<li>Real-time Embedded Systems</li>
+</ol>
+<h2 id="Operating-System-Structure"><a href="#Operating-System-Structure" class="headerlink" title="Operating System Structure"></a>Operating System Structure</h2><ol>
+<li>Monolithic Strcture - Tightly coupled system - shared memory<ul>
+<li>All function of nernal placed in single, static binary file that run in single address space</li>
+<li>Run as a single program</li>
+<li><strong>Original UNIX</strong></li>
+<li>Typical use <strong>glibc</strong> standard C lib to communicate with kernel</li>
+<li><strong>Linux</strong> has similar kernel but has a modular design that allows kernel to be modified during run time</li>
+</ul>
+</li>
+<li>Layered Approach - lossly couples system - distributed memory<ul>
+<li>brouen into number of layers</li>
+<li>Layer 0 (botton layer) is hardware, Highest layer N is the user interface</li>
+<li>Mth layer consists of data structures and function that can be invoked by higher layers</li>
+<li>Advantage<ul>
+<li>Simplicity</li>
+<li>Debugging</li>
+</ul>
+</li>
+<li>Each layer <strong>Hides</strong> existance of data struc, operations, and HW from higher level</li>
+<li>Can be used in computer network (like TCP/IP) and web app</li>
+</ul>
+</li>
+<li>Microkernels<ul>
+<li><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/OS-structure.svg/1200px-OS-structure.svg.png" alt="Microkernel"></li>
+<li>Noneseential component are removed from the kernel</li>
+<li>Advantage<ul>
+<li>easier extension</li>
+<li>easily ported from one hardware to other</li>
+<li>more security and reliability</li>
+</ul>
+</li>
+<li>Drawbacks<ul>
+<li>Copying of messages and switching between processir</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Modules<ul>
+<li>Use<strong>Loadable Kernel Modules LKMs</strong> - best current method for OS design</li>
+<li>Kernel provide core services</li>
+<li>Futher service and be <strong>linked dynmically</strong> while kernel running</li>
+<li>Linking services does not require the recompilation of kernel</li>
+</ul>
+</li>
+<li>Hybrid System<ul>
+<li>Different structure combine</li>
+</ul>
+</li>
+</ol>
+</div><div class="article-licensing box"><div class="licensing-title"><p>OS Background Knowledge</p><p><a href="http://isa-lai.com/blog/2022/01/21/os-background/">http://isa-lai.com/blog/2022/01/21/os-background/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>Isa-Lai</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2022-01-21</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2022-01-21</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/blog/tags/Operating-System/">Operating System</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=613b2167f7277c0019b0d64f&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">Like this article? Support the author with</h3><div class="buttons is-centered"><a class="button donate" href="/blog/" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>Afdian.net</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>Alipay</span><span class="qrcode"><img src="/blog/" alt="Alipay"></span></a><a class="button donate" href="/blog/" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>Buy me a coffee</span></a><a class="button donate" href="/blog/" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>Wechat</span><span class="qrcode"><img src="/blog/" alt="Wechat"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/blog/2021/09/16/project-initation/"><span class="level-item">Project Initiation</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'http://isa-lai.com/blog/2022/01/21/os-background/';
+            this.page.identifier = '2022/01/21/os-background/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'isa-lai-blog' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/blog/img/logo.png" alt="Isa-Lai"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">Isa-Lai</p><p class="is-size-6 is-block">Software Developer</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>CA</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">Posts</p><a href="/blog/archives"><p class="title">11</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Categories</p><a href="/blog/categories"><p class="title">10</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Tags</p><a href="/blog/tags"><p class="title">8</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/isa-lai" target="_blank" rel="noopener">Follow</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/isa-lai"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="/blog/"><i class="fas fa-rss"></i></a></div></div></div><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">Links</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://isa-lai.com" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Protfolio</span></span><span class="level-right"><span class="level-item tag">isa-lai.com</span></span></a></li><li><a class="level is-mobile" href="https://isa-lai.com/wiki" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Wiki</span></span><span class="level-right"><span class="level-item tag">isa-lai.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/blog/categories/About/"><span class="level-start"><span class="level-item">About</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/CS/"><span class="level-start"><span class="level-item">CS</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/blog/categories/CS/Design-Pattern/"><span class="level-start"><span class="level-item">Design Pattern</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/blog/categories/CS/Operating-System/"><span class="level-start"><span class="level-item">Operating System</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/blog/categories/Certification/"><span class="level-start"><span class="level-item">Certification</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/blog/categories/Certification/AWS/"><span class="level-start"><span class="level-item">AWS</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/blog/categories/Management/"><span class="level-start"><span class="level-item">Management</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/blog/categories/Management/Project-Management/"><span class="level-start"><span class="level-item">Project Management</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/blog/categories/Programming/"><span class="level-start"><span class="level-item">Programming</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/blog/categories/Programming/Java/"><span class="level-start"><span class="level-item">Java</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li></ul></div></div></div><div class="column-right-shadow is-hidden-widescreen"></div></div><div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#OS-as-a-Resource-Manager"><span class="level-left"><span class="level-item">1</span><span class="level-item">OS as a Resource Manager</span></span></a></li><li><a class="level is-mobile" href="#Evolution-of-OS"><span class="level-left"><span class="level-item">2</span><span class="level-item">Evolution of OS</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Difference"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">Difference</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Dual-Mode-Operation"><span class="level-left"><span class="level-item">3</span><span class="level-item">Dual Mode Operation</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Kernel-Data-Structure"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">Kernel Data Structure</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Virtualization"><span class="level-left"><span class="level-item">4</span><span class="level-item">Virtualization</span></span></a></li><li><a class="level is-mobile" href="#Distributed-System"><span class="level-left"><span class="level-item">5</span><span class="level-item">Distributed System</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Network"><span class="level-left"><span class="level-item">5.1</span><span class="level-item">Network</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Communication-protocal"><span class="level-left"><span class="level-item">5.1.1</span><span class="level-item">Communication protocal</span></span></a></li><li><a class="level is-mobile" href="#Distance"><span class="level-left"><span class="level-item">5.1.2</span><span class="level-item">Distance</span></span></a></li><li><a class="level is-mobile" href="#Communication-Media"><span class="level-left"><span class="level-item">5.1.3</span><span class="level-item">Communication Media</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="#Loader-and-linker"><span class="level-left"><span class="level-item">6</span><span class="level-item">Loader and linker</span></span></a></li><li><a class="level is-mobile" href="#Computer-System-Architechture"><span class="level-left"><span class="level-item">7</span><span class="level-item">Computer System Architechture</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Dual-Core-Design"><span class="level-left"><span class="level-item">7.1</span><span class="level-item">Dual Core Design</span></span></a></li><li><a class="level is-mobile" href="#Clustered-Systems"><span class="level-left"><span class="level-item">7.2</span><span class="level-item">Clustered Systems</span></span></a></li><li><a class="level is-mobile" href="#Hadoop-and-Big-Data"><span class="level-left"><span class="level-item">7.3</span><span class="level-item">Hadoop and Big Data</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Computer-Environment"><span class="level-left"><span class="level-item">8</span><span class="level-item">Computer Environment</span></span></a></li><li><a class="level is-mobile" href="#Operating-System-Structure"><span class="level-left"><span class="level-item">9</span><span class="level-item">Operating System Structure</span></span></a></li></ul></div></div><script src="/blog/js/toc.js" defer></script></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">Recents</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2022-01-21T22:42:33.000Z">2022-01-21</time></p><p class="title"><a href="/blog/2022/01/21/os-background/">OS Background Knowledge</a></p><p class="categories"><a href="/blog/categories/CS/">CS</a> / <a href="/blog/categories/CS/Operating-System/">Operating System</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-09-16T17:04:55.000Z">2021-09-16</time></p><p class="title"><a href="/blog/2021/09/16/project-initation/">Project Initiation</a></p><p class="categories"><a href="/blog/categories/Management/">Management</a> / <a href="/blog/categories/Management/Project-Management/">Project Management</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-09-13T23:59:50.000Z">2021-09-13</time></p><p class="title"><a href="/blog/2021/09/13/aws-cloud-practitioner-tech/">AWS Cloud Practitioner - Technology</a></p><p class="categories"><a href="/blog/categories/Certification/">Certification</a> / <a href="/blog/categories/Certification/AWS/">AWS</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-09-12T18:13:55.000Z">2021-09-12</time></p><p class="title"><a href="/blog/2021/09/12/process-in-os/">Process in Operating System</a></p><p class="categories"><a href="/blog/categories/CS/">CS</a> / <a href="/blog/categories/CS/Operating-System/">Operating System</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-09-10T18:35:34.000Z">2021-09-10</time></p><p class="title"><a href="/blog/2021/09/10/aws-cloud-practitioner-billing/">AWS Cloud Practitioner - Billing</a></p><p class="categories"><a href="/blog/categories/Certification/">Certification</a> / <a href="/blog/categories/Certification/AWS/">AWS</a></p></div></article></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">Tags</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/blog/tags/AWS/"><span class="tag">AWS</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/About/"><span class="tag">About</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/CS/"><span class="tag">CS</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/Design-Pattern/"><span class="tag">Design Pattern</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/Java/"><span class="tag">Java</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/OOP/"><span class="tag">OOP</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/Operating-System/"><span class="tag">Operating System</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/blog/tags/Project-Management/"><span class="tag">Project Management</span><span class="tag">2</span></a></div></div></div></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">Archives</h3><ul class="menu-list"><li><a class="level is-mobile" href="/blog/archives/2022/01/"><span class="level-start"><span class="level-item">January 2022</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/blog/archives/2021/09/"><span class="level-start"><span class="level-item">September 2021</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/blog/archives/2021/08/"><span class="level-start"><span class="level-item">August 2021</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/blog/"><img src="/blog/img/logo.png" alt="Isa Blog | Software Engineering" height="28"></a><p class="is-size-7"><span>&copy; 2022 Isa-Lai</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/isa-lai/blog"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/blog/js/column.js"></script><script src="/blog/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/blog/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/blog/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/blog/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/blog/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script></body></html>
