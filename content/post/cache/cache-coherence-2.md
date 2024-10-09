@@ -1,7 +1,7 @@
 ---
-title: "Cacache Coherence (2) - Memory Consistency"
-description: Memory Consistency (MC) | Sequential Consistency (SC) | TSO/X86 | Memory Model
-date: 2024-10-07T19:31:55-04:00
+title: "Cache Coherence (2) - Memory Consistency"
+description: Memory Consistency (MC) | Sequential Consistency (SC) | TSO/X86 | Relaxed Memory Consistency | Memory Model
+date: 2024-10-08T19:31:55-04:00
 image: cache/sequential-consistency.png
 math: 
 license: 
@@ -10,7 +10,7 @@ comments: true
 categories:
     - Cache
 tags:
-    - Cache Coherence
+    - Memory
     - Cache
     - Computer Architecture
 ---
@@ -151,7 +151,80 @@ To fix this:
 - Load part need read-write coherence permission. 
 - Cannot change/relinquish permission in the middle of RMW.
 
+## Relaxed Memory Consistency
+
+- Can reorder any memory operation unless there is a FENCE.
+- Requires programmer to explicitly mark the FENCE.
+
+Some advantages:
+- Non-FIFO Coalescing Write Buffer
+- Simpler Implementation
+- Coupling consistency and coherence: Relaxed Model *opens the coherence box*. 
+
+### eXample relaxed Consistency model (XC)
+
+XC gratrnteed to preserve program order for:
+- Load/Store -> FENCE
+- FENCE -> FENCE
+- FENCE -> Load/Store
+
+XC keeps TSO rules for two same address access:
+- Load -> Load/Store
+- Store -> Store
+
+For example for this case, we have to insert FENCE at these places to get r2 = 1:
+|   Core C1    |        Core C2          |           *           |
+|:------------:|:-----------------------:|:---------------------:|
+| S1: x = 1    |                         |                       |
+| **F1: FENCE**|                         |                       |
+| S2: y = 1    |                         |                       |
+|              | L1: r1 = x              |                       |
+|              | B1: if (r1≠ 1) goto L1; |                       |
+|              | **F2: FENCE**           |                       |
+|              | L2: r2 = y              |                       |
+
+### Implementation
+
+- Each core has a **Reorder Buffer (ROB)** to reorder load and store.
+- Reorder based on RC rules.
+- FENCE:
+    1. FENCH as drain: costly but common.
+    2. FENCH as no-ops: not in commercial product yet.
+
+### Atomic
+
+The same as TSO: drain the write buffer before performing RMW. However, XC needs a FENCH for RMW or lock release.
+
+For examples:
+| Note                        | XC Inst                        |
+|-----------------------------|--------------------------------|
+| Read L and hold L if L is 0 | RMW: L If L==1, goto RMW; **FENCE** |
+| Critical Sections           | Memory Requests                |
+| Release Lock                | **FENCE**; Store L=0                |
+
+### Data Races
+
+Assume acquire lock and release lock always has FENCH to perform the correct mutual exclusion.
+
+In this case, r1 and r2 can be any combination of 0 and 1. There is a data race.
+
+|   Core C1  |   Core C2  |           *           |
+|:----------:|:----------:|:---------------------:|
+| lock       |            |                       |
+| S1: x = 1  | L1: r1 = y | x and y initialy be 0 |
+| S2: y = 1  | L2: r2 = x |                       |
+| unlock     |            |                       |
+
+Now, r1 and r2 can only be (0,0) or (1,1). There is no data race.
+
+|   Core C1  |   Core C2  |           *           |
+|:----------:|:----------:|:---------------------:|
+| lock       | lock       |                       |
+| S1: x = 1  | L1: r1 = y | x and y initialy be 0 |
+| S2: y = 1  | L2: r2 = x |                       |
+| unlock     | unlock     |                       |
+
 ## References
 
-Sorin, D. J., Hill, M. D., Wood, D. A., & Nagarajan, V. (2020). *A primer on memory consistency and cache coherence* (2nd ed., pp. 17-55). Springer Nature. https://doi.org/10.1007/978-3-031-01764-3
+Sorin, D. J., Hill, M. D., Wood, D. A., & Nagarajan, V. (2020). *A primer on memory consistency and cache coherence* (2nd ed., pp. 17-90). Springer Nature. https://doi.org/10.1007/978-3-031-01764-3
 
