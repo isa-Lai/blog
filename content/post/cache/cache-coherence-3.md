@@ -223,11 +223,14 @@ BASELINE SNOOPING SYSTEM MODEL: NON-ATOMIC REQUESTS, ATOMIC TRANSACTIONS
 
 ![MESI at cache controller](cache/MESI-for-cache.png)
 
+Note: in the figure when it says, "mem in I", it means in the lower level memory (ie,. LLC or DRAM), that cache block is in `I` which states that no private cache has a copy of that block. It does not mean the cache in the private cache is in `I` state. 
+
 ### MOSI
 
 - Rely on atomic transactions.
 - Eliminate extra data to update LLC when a cache receives a GetS request in the M/E state. 
 - Using dirty bit, eliminate unnecessary write to LLC (if block is written again before write back to LLC). 
+- Owner is used to reduce the access latency. Without owner, even a core's private has a copy in `S`, it cannot forward the copy to other because no one know who is the owner. Only the defined owner can forward the copy. 
 
 ![MOSI at cache controller](cache/MOSI-for-cache.png)
 
