@@ -1,0 +1,883 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Isa Lai | Blog</title><link>https://isa-lai.com/blog/post/</link><description>Recent content in Posts on Isa Lai | Blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 09 Oct 2024 14:00:00 +0000</lastBuildDate><atom:link href="https://isa-lai.com/blog/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Cache Coherence (3) - Coherence Protocols</title><link>https://isa-lai.com/blog/p/cache-coherence-3-coherence-protocols/</link><pubDate>Wed, 09 Oct 2024 14:00:00 +0000</pubDate><guid>https://isa-lai.com/blog/p/cache-coherence-3-coherence-protocols/</guid><description>&lt;img src="https://isa-lai.com/blog/cache/cache-coherence-controller.png" alt="Featured image of post Cache Coherence (3) - Coherence Protocols" />&lt;h2 id="finite-state-machine">Finite State Machine
+&lt;/h2>&lt;p>AKA &lt;em>coherence controller&lt;/em>.&lt;/p>
+&lt;p>&lt;img src="https://isa-lai.com/blog/blog/cache/cache-coherence-controller.png"
+loading="lazy"
+alt="Cache Coherence Controller"
+>&lt;/p>
+&lt;h2 id="coherence-protocols">Coherence Protocols
+&lt;/h2>&lt;h3 id="specifing-protocols">Specifing Protocols
+&lt;/h3>&lt;ul>
+&lt;li>&lt;strong>State&lt;/strong>: For example, Not readable or writable (N), Read-only (RO), Read-write (RW). These is the state of the cache.&lt;/li>
+&lt;li>&lt;strong>Events&lt;/strong>: For example, Load, Store, Incoming Coherence request to optain read-write state.&lt;/li>
+&lt;li>&lt;strong>Transitions&lt;/strong>: Actions&lt;/li>
+&lt;/ul>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: left">&lt;/th>
+&lt;th style="text-align: left">Load&lt;/th>
+&lt;th style="text-align: left">Store&lt;/th>
+&lt;th style="text-align: left">Incoming Coherence request to optain read-write state&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: left">N&lt;/td>
+&lt;td style="text-align: left">Issue request to get RO&lt;/td>
+&lt;td style="text-align: left">Issue request to get RW&lt;/td>
+&lt;td style="text-align: left">NA&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">RO&lt;/td>
+&lt;td style="text-align: left">Give data&lt;/td>
+&lt;td style="text-align: left">Issue request to get RW&lt;/td>
+&lt;td style="text-align: left">NA/N&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">RW&lt;/td>
+&lt;td style="text-align: left">Give data&lt;/td>
+&lt;td style="text-align: left">Write data&lt;/td>
+&lt;td style="text-align: left">Send &lt;strong>Block&lt;/strong> to requestor/N&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="states">States
+&lt;/h3>&lt;p>Implemented ststes shoudl consider:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Validity&lt;/strong>: Has the up-to-date value. Can read, but can write if it is also exclusive.&lt;/li>
+&lt;li>&lt;strong>Dirtiness&lt;/strong>: Write to up-to-date, but not yet push to lower memory.&lt;/li>
+&lt;li>&lt;strong>Exclusivity&lt;/strong>: No other private cache has a copy of the block.&lt;/li>
+&lt;li>&lt;strong>Ownership&lt;/strong>: Owner is responsible for responding to coherence reqeust for that block.&lt;/li>
+&lt;/ul>
+&lt;h4 id="moesimsi">MOESI/MSI
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>Modified&lt;/strong>: Valid, exclusive, owned, and maybe dirty. Can read and write.&lt;/li>
+&lt;li>&lt;strong>Owned&lt;/strong>: Valid, and owned, and maybe dirty. Read-only. Other core also have read-only copy but not owners.&lt;/li>
+&lt;li>&lt;strong>Exclusive&lt;/strong>: Valid, exclusive, and clean. Read-only.&lt;/li>
+&lt;li>&lt;strong>Shared&lt;/strong>: Valid and clean. Read-only.&lt;/li>
+&lt;li>&lt;strong>Invalid&lt;/strong>: Invalid.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://isa-lai.com/blog/blog/cache/MOESI-states.png"
+loading="lazy"
+alt="MOESI/MSI States"
+>&lt;/p>
+&lt;h4 id="transiten-states">Transiten States
+&lt;/h4>&lt;p>States that is inbetween two states. ie., $IV^D$ (in Invalid going to Valid, waiting for DataResq).&lt;/p>
+&lt;h3 id="transactions">Transactions
+&lt;/h3>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: left">Transaction&lt;/th>
+&lt;th style="text-align: left">Goal of Requestor&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: left">GetShared (GetS)&lt;/td>
+&lt;td style="text-align: left">Obtain block in Shared (read-only) state&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">GetModified (GetM)&lt;/td>
+&lt;td style="text-align: left">Obtain block in Modified (read-write) state&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">Upgrade (Upg)&lt;/td>
+&lt;td style="text-align: left">Upgrade block state from read-only (Shared or Owned) to read-write (Modified); Upg (unlike GetM) does not require data to be sent to requestor&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">PutShared (PutS)&lt;/td>
+&lt;td style="text-align: left">Evict block in Shared state*&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">PutExclusive (PutE)&lt;/td>
+&lt;td style="text-align: left">Evict block in Exclusive state*&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">PutOwned (PutO)&lt;/td>
+&lt;td style="text-align: left">Evict block in Owned state&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">PutModified (PutM)&lt;/td>
+&lt;td style="text-align: left">Evict block in Modified state&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>*Some protocols do not require a coherence transaction to evict a Shared block and/or an Exclusive block (i.e., the PutS and/or PutE are &amp;ldquo;silent&amp;rdquo;).&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: left">Event&lt;/th>
+&lt;th style="text-align: left">Response of (Typical) Cache Controller&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: left">Load&lt;/td>
+&lt;td style="text-align: left">If cache hit, respond with data from cache; else initiate GetS transaction&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">Store&lt;/td>
+&lt;td style="text-align: left">If cache hit in state E or M, write data into cache; else initiate GetM or Upg transaction&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">Atomic read-modify-write&lt;/td>
+&lt;td style="text-align: left">If cache hit in state E or M, atomically execute RMW semantics; else GetM or Upg transaction&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">Instruction fetch&lt;/td>
+&lt;td style="text-align: left">If cache hit (in I-cache), respond with instruction from cache; else initiate GetS transaction&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">Read-only prefetch&lt;/td>
+&lt;td style="text-align: left">If cache hit, ignore; else may optionally initiate GetS transaction*&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">Read-Write prefetch&lt;/td>
+&lt;td style="text-align: left">If cache hit in state M, ignore; else may optionally initiate GetM or Upg transaction*&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">Replacement&lt;/td>
+&lt;td style="text-align: left">Depending on state of block, initiate PutS, PutE, PutO, or PutM transaction&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>*A cache controller may choose to ignore a prefetch request from the core.&lt;/p>
+&lt;h3 id="major-protocal-design-options">Major Protocal Design Options
+&lt;/h3>&lt;p>Directory vs. Snooping&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Directory protocol&lt;/strong>: A directory is used to track the state of each block. Cache controller send request to the &lt;em>home&lt;/em> of that block.&lt;/li>
+&lt;li>&lt;strong>Snooping protocol&lt;/strong>: A shared bus is used to broadcast the state of each block. Assume requests arrive in totol order.&lt;/li>
+&lt;/ul>
+&lt;p>Invalidate vs. Update&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Invalidate protocol&lt;/strong>: Write will invalidate the block, so other core cannot read.&lt;/li>
+&lt;li>&lt;strong>Update protocol&lt;/strong>: Write update all copies of the block.&lt;/li>
+&lt;/ul>
+&lt;h2 id="snooping-protocol">Snooping Protocol
+&lt;/h2>&lt;p>Usually using a bus to broadcast the requests, but not necessarily has to use a bus.&lt;/p>
+&lt;p>&lt;img src="https://isa-lai.com/blog/blog/cache/MSI-for-cache.png"
+loading="lazy"
+alt="MSI: Transitions between stable states at cache controller"
+>&lt;/p>
+&lt;h3 id="simple-snooping-system-model-atomic-requests-atomic-transactions">SIMPLE SNOOPING SYSTEM MODEL: ATOMIC REQUESTS, ATOMIC TRANSACTIONS
+&lt;/h3>&lt;p>Simple snooping for cache controller, labeled “(A)” denotes that this transition is impossible because transactions are atomic on bus:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th rowspan="3">States&lt;/th>
+&lt;th colspan="3" rowspan="2">Processor Core Events&lt;/th>
+&lt;th colspan="7">Bus Events&lt;/th>
+&lt;/tr>
+&lt;th colspan="4">Own Transaction&lt;/th>
+&lt;th colspan="3">Other Transaction&lt;/th>
+&lt;/tr>
+&lt;tr>
+&lt;th>Load&lt;/th>
+&lt;th>Store&lt;/th>
+&lt;th>Replacement&lt;/th>
+&lt;th>Own-GetS&lt;/th>
+&lt;th>Own-GetM&lt;/th>
+&lt;th>Own-PutM&lt;/th>
+&lt;th>Data&lt;/th>
+&lt;th>Other-GetS&lt;/th>
+&lt;th>Other-GetM&lt;/th>
+&lt;th>Other-PutM&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>I&lt;/td>
+&lt;td>Issue GetS /I&lt;sub>S&lt;/sub>&lt;sup>D&lt;/sup>&lt;/td>
+&lt;td>Issue GetM /I&lt;sub>M&lt;/sub>&lt;sup>D&lt;/sup>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>I&lt;sub>S&lt;/sub>&lt;sup>D&lt;/sup>&lt;/td>
+&lt;td>Stall Load&lt;/td>
+&lt;td>Stall Store&lt;/td>
+&lt;td>Stall Evict&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>Copy data into cache, load hit /S&lt;/td>
+&lt;td>(A)&lt;/td>
+&lt;td>(A)&lt;/td>
+&lt;td>(A)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>I&lt;sub>M&lt;/sub>&lt;sup>D&lt;/sup>&lt;/td>
+&lt;td>Stall Load&lt;/td>
+&lt;td>Stall Store&lt;/td>
+&lt;td>Stall Evict&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>Copy data into cache, store hit /M&lt;/td>
+&lt;td>(A)&lt;/td>
+&lt;td>(A)&lt;/td>
+&lt;td>(A)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>S&lt;/td>
+&lt;td>Load hit&lt;/td>
+&lt;td>Issue GetM /S&lt;sub>M&lt;/sub>&lt;sup>D&lt;/sup>&lt;/td>
+&lt;td>- /I&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>- /I&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>S&lt;sub>M&lt;/sub>&lt;sup>D&lt;/sup>&lt;/td>
+&lt;td>Load hit&lt;/td>
+&lt;td>Stall Store&lt;/td>
+&lt;td>Stall Evict&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>Copy data into cache, store hit /M&lt;/td>
+&lt;td>(A)&lt;/td>
+&lt;td>(A)&lt;/td>
+&lt;td>(A)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>M&lt;/td>
+&lt;td>Load hit&lt;/td>
+&lt;td>Store hit&lt;/td>
+&lt;td>Issue PutM, send Data to memory /I&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>Send Data to req and memory /S&lt;/td>
+&lt;td>Send Data to req /I&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;ul>
+&lt;li>Atomic request: Issue request ensures that another core&amp;rsquo;s request will not ordered ahead of its, when this cache controller seeks to upgrade permission (I-&amp;gt;S, S-&amp;gt;M, or I-&amp;gt;M). Thus, controller transition immediately to state $IS^D$, $IM^D$, or $SM^D$.&lt;/li>
+&lt;li>Atomic transaction: No subsequent requests from a block will occur until the current transaction completes. Resquest always comes with reponse in pair.&lt;/li>
+&lt;/ul>
+&lt;p>BASELINE SNOOPING SYSTEM MODEL: NON-ATOMIC REQUESTS, ATOMIC TRANSACTIONS&lt;/p>
+&lt;h3 id="mesi">MESI
+&lt;/h3>&lt;ul>
+&lt;li>Rely on atomic transactions.&lt;/li>
+&lt;li>Use &lt;code>E&lt;/code> instead of &lt;code>S&lt;/code>: when GetS occurs when no other cache has access to the block.&lt;/li>
+&lt;li>Upgrade from &lt;code>E&lt;/code> to &lt;code>M&lt;/code> is silent. No transactions needed. Elinimate half of the transactions.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://isa-lai.com/blog/blog/cache/MESI-for-cache.png"
+loading="lazy"
+alt="MESI at cache controller"
+>&lt;/p>
+&lt;p>Note: in the figure when it says, &amp;ldquo;mem in I&amp;rdquo;, it means in the lower level memory (ie,. LLC or DRAM), that cache block is in &lt;code>I&lt;/code> which states that no private cache has a copy of that block. It does not mean the cache in the private cache is in &lt;code>I&lt;/code> state.&lt;/p>
+&lt;h3 id="mosi">MOSI
+&lt;/h3>&lt;ul>
+&lt;li>Rely on atomic transactions.&lt;/li>
+&lt;li>Eliminate extra data to update LLC when a cache receives a GetS request in the M/E state.&lt;/li>
+&lt;li>Using dirty bit, eliminate unnecessary write to LLC (if block is written again before write back to LLC).&lt;/li>
+&lt;li>Owner is used to reduce the access latency. Without owner, even a core&amp;rsquo;s private has a copy in &lt;code>S&lt;/code>, it cannot forward the copy to other because no one know who is the owner. Only the defined owner can forward the copy.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://isa-lai.com/blog/blog/cache/MOSI-for-cache.png"
+loading="lazy"
+alt="MOSI at cache controller"
+>&lt;/p>
+&lt;h3 id="non-atomic-bus">Non-atomic bus
+&lt;/h3>&lt;ul>
+&lt;li>Send request without waiting for previous response.&lt;/li>
+&lt;li>Pipelined bus: response in same order as request.&lt;/li>
+&lt;li>Split transaction bus: response in random order depending on latency.&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">Atomic bus:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Address Bus: Request 1 ----------- Request 2 ------------ Request 3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Data Bus: Response 1 ----------- Response 2 ----------- Response 3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Pipelined (non-atomic) bus:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Address Bus: Request 1 Request 2 Request 3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Data Bus: Response 1 Response 2 Response 3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Split transaction (non-atomic) bus:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Address Bus: Request 1 Request 2 Request 3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Data Bus: Response 2 Response 3 Response 1
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>non-atomic system model:
+&lt;ul>
+&lt;li>can use FIFO queue to buffer messages.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="directory-protocol">Directory Protocol
+&lt;/h2>&lt;ul>
+&lt;li>Directory: a global view of the coherence state of each block.&lt;/li>
+&lt;li>Forwarding, the directory controller can forward the request to the owner of the block.&lt;/li>
+&lt;/ul>
+&lt;p>A directory entry can be like (N: number of nodes):&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: left">state&lt;/th>
+&lt;th style="text-align: left">owner&lt;/th>
+&lt;th style="text-align: left">starer list (one-host bit vector)&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: left">2-bit&lt;/td>
+&lt;td style="text-align: left">$Log_2(N)$-bit&lt;/td>
+&lt;td style="text-align: left">$N$-bit&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>&lt;img src="https://isa-lai.com/blog/blog/cache/MSI-directory-protocal.png"
+loading="lazy"
+alt="MSI Directory Protocal"
+>&lt;/p>
+&lt;h3 id="avoiding-deadlocks">Avoiding Deadlocks
+&lt;/h3>&lt;ul>
+&lt;li>Deadlock: Event &lt;code>A&lt;/code> causes event &lt;code>B&lt;/code> and both require resource allocation. Deadlock can occur when the resources are both not available until one of the event completes. For example, &lt;code>GetS&lt;/code> can causes &lt;code>Fwd-GetS&lt;/code> which uses the same resources.&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl"> Full
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | Queue | ------&amp;gt; C1 -----&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ^ |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> -----C2&amp;lt;--------------| Queue |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Full
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>To avoid deadlock, we can use different netwroks for different calss of messages. This avoid dependence between different messages. ie,. response and request.&lt;/p>
+&lt;h3 id="detailed-protocal-specification">Detailed Protocal Specification
+&lt;/h3>&lt;p>MSI Directory Protocol - directory controller&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: left">&lt;/th>
+&lt;th style="text-align: left">GetS&lt;/th>
+&lt;th style="text-align: left">GetM&lt;/th>
+&lt;th style="text-align: left">PutS-NotLast&lt;/th>
+&lt;th style="text-align: left">PutS-Last&lt;/th>
+&lt;th style="text-align: left">Put M+data from Owner&lt;/th>
+&lt;th style="text-align: left">PutM+data from Non-Owner&lt;/th>
+&lt;th style="text-align: left">Data&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: left">I&lt;/td>
+&lt;td style="text-align: left">Send data to Req, add Req to Sharers/S&lt;/td>
+&lt;td style="text-align: left">Send data to Req, set Owner to Req/M&lt;/td>
+&lt;td style="text-align: left">Send Put-Ack to Req&lt;/td>
+&lt;td style="text-align: left">Send Put-Ack to Req&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">Send Put-Ack to Req&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">S&lt;/td>
+&lt;td style="text-align: left">Send data to Req, add Req to Sharers&lt;/td>
+&lt;td style="text-align: left">Send data to Req, send Inv to Sharers, clear Sharers, set Owner to Req/M&lt;/td>
+&lt;td style="text-align: left">Remove Req from Sharers, sent Put-Ack to Req&lt;/td>
+&lt;td style="text-align: left">Remove Req from Sharers, send Put-Ack to Req/I&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">Remove Req from Sharers, send Put-Ack to Req&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">M&lt;/td>
+&lt;td style="text-align: left">Send Fwd-GetS to Owner, add Req and Owner to Sharers, clear Owner/S&lt;sup>D&lt;/sup>&lt;/td>
+&lt;td style="text-align: left">Send Fwd-GetM to Owner, set Owner to Req&lt;/td>
+&lt;td style="text-align: left">Send Put-Ack to Req&lt;/td>
+&lt;td style="text-align: left">Send Put-Ack to Req&lt;/td>
+&lt;td style="text-align: left">Copy data to memory, clear Owner, send Put-Ack to Req/I&lt;/td>
+&lt;td style="text-align: left">Send Put-Ack to Req&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">S&lt;sup>D&lt;/sup>&lt;/td>
+&lt;td style="text-align: left">Stall&lt;/td>
+&lt;td style="text-align: left">Stall&lt;/td>
+&lt;td style="text-align: left">Remove Req from Sharers, send Put-Ack to Req&lt;/td>
+&lt;td style="text-align: left">Remove Req from Sharers, send Put-Ack to Req&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
+&lt;td style="text-align: left">Remove Req from Sharers, send Put-Ack to Req&lt;/td>
+&lt;td style="text-align: left">Copy data to memory/S&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="references">References
+&lt;/h2>&lt;p>Sorin, D. J., Hill, M. D., Wood, D. A., &amp;amp; Nagarajan, V. (2020). &lt;em>A primer on memory consistency and cache coherence&lt;/em> (2nd ed., pp. 91-191). Springer Nature. &lt;a class="link" href="https://doi.org/10.1007/978-3-031-01764-3" target="_blank" rel="noopener"
+>https://doi.org/10.1007/978-3-031-01764-3&lt;/a>&lt;/p></description></item><item><title>Cache Coherence (2) - Memory Consistency</title><link>https://isa-lai.com/blog/p/cache-coherence-2-memory-consistency/</link><pubDate>Tue, 08 Oct 2024 19:31:55 -0400</pubDate><guid>https://isa-lai.com/blog/p/cache-coherence-2-memory-consistency/</guid><description>&lt;img src="https://isa-lai.com/blog/cache/sequential-consistency.png" alt="Featured image of post Cache Coherence (2) - Memory Consistency" />&lt;h2 id="problem-is-shared-memory">Problem is Shared Memory
+&lt;/h2>&lt;p>For these intructions in two cores:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: center">Core C1&lt;/th>
+&lt;th style="text-align: center">Core C2&lt;/th>
+&lt;th style="text-align: center">*&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: center">S1: x = 1&lt;/td>
+&lt;td style="text-align: center">S2: y = 1&lt;/td>
+&lt;td style="text-align: center">x and y initialy be 0&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">L1: r1 = y&lt;/td>
+&lt;td style="text-align: center">L2: r2 = x&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>We could get different results depending on the order of execution:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: center">r1&lt;/th>
+&lt;th style="text-align: center">r2&lt;/th>
+&lt;th style="text-align: center">Execution Order&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: center">0&lt;/td>
+&lt;td style="text-align: center">1&lt;/td>
+&lt;td style="text-align: center">S1 L1 S2 L2&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">1&lt;/td>
+&lt;td style="text-align: center">0&lt;/td>
+&lt;td style="text-align: center">S2 L2 S1 L1&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">1&lt;/td>
+&lt;td style="text-align: center">1&lt;/td>
+&lt;td style="text-align: center">S1 S2 L1 L2&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">0&lt;/td>
+&lt;td style="text-align: center">0&lt;/td>
+&lt;td style="text-align: center">*Possibly when using FIFO write buffers.&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="consistency-vs-coherence">Consistency vs Coherence?
+&lt;/h2>&lt;ul>
+&lt;li>Cache coherence does not equal memory consistency. Coherence simply provide a pipelined way to update the cache. It along does not determine shared memory behavior.&lt;/li>
+&lt;li>A memory consistency implementation can use cache coherence as a useful “black box.”&lt;/li>
+&lt;/ul>
+&lt;h2 id="sequential-consistency-sc">Sequential Consistency (SC)
+&lt;/h2>&lt;p>Most intuitive memory model. Basic idea:&lt;/p>
+&lt;ul>
+&lt;li>Single processor sequential: result like executed in order.&lt;/li>
+&lt;li>Multi-processor sequential: single core in the sequence of in order, while all core also execute in some sequential order. The total order of operations is &lt;code>memory order&lt;/code>, like this figure:&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://isa-lai.com/blog/blog/cache/sequential-consistency.png"
+loading="lazy"
+alt="Sequential Consistency"
+>&lt;/p>
+&lt;p>Here is a example SC execution for the preious sample table of execution S1 S2 L1 L2.&lt;/p>
+&lt;p>&lt;img src="https://isa-lai.com/blog/blog/cache/sc-example.png"
+loading="lazy"
+alt="Sequential Consistency Example"
+>&lt;/p>
+&lt;h3 id="sc-execution">SC Execution
+&lt;/h3>&lt;p>Reqires the following (L(a) and S(a) represent a load and a store, respectively, to address &lt;code>a&lt;/code>, Orders &amp;lt;p and &amp;lt;m define program and global memory order.):&lt;/p>
+&lt;ul>
+&lt;li>All cores insert request to &amp;lt;m respecting to their programe order. Four cases:
+&lt;ul>
+&lt;li>If L(a) &amp;lt;p L(b) -&amp;gt; L(a) &amp;lt;m L(b) /* Load-&amp;gt;Load */&lt;/li>
+&lt;li>If L(a) &amp;lt;p S(b) -&amp;gt; L(a) &amp;lt;m S(b) /* Load-&amp;gt;Store */&lt;/li>
+&lt;li>If S(a) &amp;lt;p S(b) -&amp;gt; S(a) &amp;lt;m S(b) /* Store-&amp;gt;Store */&lt;/li>
+&lt;li>If S(a) &amp;lt;p L(b) -&amp;gt; S(a) &amp;lt;m L(b) /* Store-&amp;gt;Load */&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Every load gets the value from the latest store in memory order.&lt;/li>
+&lt;/ul>
+&lt;h3 id="sc-implementation">SC implementation
+&lt;/h3>&lt;p>2 Native implementation:&lt;/p>
+&lt;ul>
+&lt;li>Multistasking Uniprocessor
+&lt;ul>
+&lt;li>Multi threading in single processor.
+&lt;ul>
+&lt;li>T1 executes on C1 until context switch to T2&lt;/li>
+&lt;li>On a context switch, all pending memory requests must complete before switching.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Switch
+&lt;ul>
+&lt;li>Pick a core, complete one request, and then switch to next core.&lt;/li>
+&lt;li>Can be random, round-robin, or any other scheme that does not starve a core.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="sc-implementation-with-cache-coherence">SC Implementation with Cache Coherence
+&lt;/h4>&lt;p>&lt;code>Conflict&lt;/code>: two operations to the same address in parallel, and at least one writes.&lt;/p>
+&lt;p>Here assume SWMR(Single Writer Multi Reader)&lt;/p>
+&lt;p>State Machine:&lt;/p>
+&lt;ul>
+&lt;li>M: modified - read and write permit&lt;/li>
+&lt;li>S: shared - read permit&lt;/li>
+&lt;li>GetM and GetS: coherence requests to obtain a block in M or S.&lt;/li>
+&lt;li>Requests can perform in parallel is no conflict.&lt;/li>
+&lt;/ul>
+&lt;h4 id="optimizing-sc-implementation">Optimizing SC Implementation
+&lt;/h4>&lt;ul>
+&lt;li>Non-Binding Prefetching&lt;/li>
+&lt;li>Speculative Cores: When branch prediction squashes intructions, the non-binding prefetching does not get squashed.&lt;/li>
+&lt;li>Dynamically Scheduled Cores: out-of-order execution.&lt;/li>
+&lt;li>Multithreading&lt;/li>
+&lt;/ul>
+&lt;h3 id="atomic-operations-with-sc">Atomic operations with SC
+&lt;/h3>&lt;p>Atomically perform paris of operations for &lt;code>thread synchronization&lt;/code>. &lt;strong>Read-Modify-Write&lt;/strong> (RMW) aka:&lt;/p>
+&lt;ul>
+&lt;li>Load-Linked/Store-Conditional (LL/SC)&lt;/li>
+&lt;li>Test-and-Set (TS)&lt;/li>
+&lt;li>Compare-and-Swap (CAS)&lt;/li>
+&lt;li>Fetch-and-Add (FAA)&lt;/li>
+&lt;/ul>
+&lt;p>RMW atomically read to check if it is unlocked, and write the locked value. To be atomic, read and write must appear consecutively.&lt;/p>
+&lt;p>Atomic RMW does not need to inform other cores.&lt;/p>
+&lt;ol>
+&lt;li>The core obtain the block in M in its cache.&lt;/li>
+&lt;li>If block is not M or not there, just load and store the block in its cache.&lt;/li>
+&lt;li>Serve any incoming coherence requests intil it stores.&lt;/li>
+&lt;/ol>
+&lt;h2 id="tsox86">TSO/X86
+&lt;/h2>&lt;h3 id="motivation">Motivation
+&lt;/h3>&lt;p>&lt;code>write buffer&lt;/code> hold the committed store until it retire and write to cache/register. More performance improvement can be done by &lt;em>forward/bypass&lt;/em> the latest store to load.&lt;/p>
+&lt;p>Back to the example:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: center">Core C1&lt;/th>
+&lt;th style="text-align: center">Core C2&lt;/th>
+&lt;th style="text-align: center">*&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: center">S1: x = 1&lt;/td>
+&lt;td style="text-align: center">S2: y = 1&lt;/td>
+&lt;td style="text-align: center">x and y initialy be 0&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">L1: r1 = y&lt;/td>
+&lt;td style="text-align: center">L2: r2 = x&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;ul>
+&lt;li>C1 run S1, and buffer NEW to write buffer&lt;/li>
+&lt;li>C2 run S2, and buffer NEW to write buffer&lt;/li>
+&lt;li>Both run L1 and L2, which both get 0 from memory&lt;/li>
+&lt;li>Finally both write buffers update x and y to NEW&lt;/li>
+&lt;/ul>
+&lt;h3 id="tso-compare-to-sc">TSO compare to SC
+&lt;/h3>&lt;p>SC execution is a subset of TSO execution.&lt;/p>
+&lt;p>Store-&amp;gt;Load in program order not necessary be the same in memory order, so SC has this but TSO does not:&lt;/p>
+&lt;ul>
+&lt;li>If S(a) &amp;lt;p L(b) -&amp;gt; S(a) &amp;lt;m L(b) /* Store-&amp;gt;Load */&lt;/li>
+&lt;/ul>
+&lt;p>Programmer/Compiler can prevent this by using &lt;code>FENCE&lt;/code> instruction. Memory operation before FENCE must complete before any memory operation after FENCE.&lt;/p>
+&lt;h3 id="bypassing">Bypassing
+&lt;/h3>&lt;p>Most bypassing value can only be within its own thread.&lt;/p>
+&lt;h3 id="atomic">Atomic
+&lt;/h3>&lt;p>Load of RMW cannot pass an earlier store because of this wrong scenario:&lt;/p>
+&lt;ul>
+&lt;li>Load of RMW pass earlier store.&lt;/li>
+&lt;li>Store of RMW pass earlier store because they are atomic pare.&lt;/li>
+&lt;li>Store passing store is illegal in TSO.&lt;/li>
+&lt;/ul>
+&lt;p>To fix this:&lt;/p>
+&lt;ul>
+&lt;li>RMW effectively drains/runs the write buffer before it can perform the load.&lt;/li>
+&lt;li>Load part need read-write coherence permission.&lt;/li>
+&lt;li>Cannot change/relinquish permission in the middle of RMW.&lt;/li>
+&lt;/ul>
+&lt;h2 id="relaxed-memory-consistency">Relaxed Memory Consistency
+&lt;/h2>&lt;ul>
+&lt;li>Can reorder any memory operation unless there is a FENCE.&lt;/li>
+&lt;li>Requires programmer to explicitly mark the FENCE.&lt;/li>
+&lt;/ul>
+&lt;p>Some advantages:&lt;/p>
+&lt;ul>
+&lt;li>Non-FIFO Coalescing Write Buffer&lt;/li>
+&lt;li>Simpler Implementation&lt;/li>
+&lt;li>Coupling consistency and coherence: Relaxed Model &lt;em>opens the coherence box&lt;/em>.&lt;/li>
+&lt;/ul>
+&lt;h3 id="example-relaxed-consistency-model-xc">eXample relaxed Consistency model (XC)
+&lt;/h3>&lt;p>XC gratrnteed to preserve program order for:&lt;/p>
+&lt;ul>
+&lt;li>Load/Store -&amp;gt; FENCE&lt;/li>
+&lt;li>FENCE -&amp;gt; FENCE&lt;/li>
+&lt;li>FENCE -&amp;gt; Load/Store&lt;/li>
+&lt;/ul>
+&lt;p>XC keeps TSO rules for two same address access:&lt;/p>
+&lt;ul>
+&lt;li>Load -&amp;gt; Load/Store&lt;/li>
+&lt;li>Store -&amp;gt; Store&lt;/li>
+&lt;/ul>
+&lt;p>For example for this case, we have to insert FENCE at these places to get r2 = 1:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: center">Core C1&lt;/th>
+&lt;th style="text-align: center">Core C2&lt;/th>
+&lt;th style="text-align: center">*&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: center">S1: x = 1&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">&lt;strong>F1: FENCE&lt;/strong>&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">S2: y = 1&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">&lt;/td>
+&lt;td style="text-align: center">L1: r1 = x&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">&lt;/td>
+&lt;td style="text-align: center">B1: if (r1≠ 1) goto L1;&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">&lt;/td>
+&lt;td style="text-align: center">&lt;strong>F2: FENCE&lt;/strong>&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">&lt;/td>
+&lt;td style="text-align: center">L2: r2 = y&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="implementation">Implementation
+&lt;/h3>&lt;ul>
+&lt;li>Each core has a &lt;strong>Reorder Buffer (ROB)&lt;/strong> to reorder load and store.&lt;/li>
+&lt;li>Reorder based on RC rules.&lt;/li>
+&lt;li>FENCE:
+&lt;ol>
+&lt;li>FENCH as drain: costly but common.&lt;/li>
+&lt;li>FENCH as no-ops: not in commercial product yet.&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="atomic-1">Atomic
+&lt;/h3>&lt;p>The same as TSO: drain the write buffer before performing RMW. However, XC needs a FENCH for RMW or lock release.&lt;/p>
+&lt;p>For examples:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: left">Note&lt;/th>
+&lt;th style="text-align: left">XC Inst&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: left">Read L and hold L if L is 0&lt;/td>
+&lt;td style="text-align: left">RMW: L If L==1, goto RMW; &lt;strong>FENCE&lt;/strong>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">Critical Sections&lt;/td>
+&lt;td style="text-align: left">Memory Requests&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">Release Lock&lt;/td>
+&lt;td style="text-align: left">&lt;strong>FENCE&lt;/strong>; Store L=0&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="data-races">Data Races
+&lt;/h3>&lt;p>Assume acquire lock and release lock always has FENCH to perform the correct mutual exclusion.&lt;/p>
+&lt;p>In this case, r1 and r2 can be any combination of 0 and 1. There is a data race.&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: center">Core C1&lt;/th>
+&lt;th style="text-align: center">Core C2&lt;/th>
+&lt;th style="text-align: center">*&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: center">lock&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">S1: x = 1&lt;/td>
+&lt;td style="text-align: center">L1: r1 = y&lt;/td>
+&lt;td style="text-align: center">x and y initialy be 0&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">S2: y = 1&lt;/td>
+&lt;td style="text-align: center">L2: r2 = x&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">unlock&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>Now, r1 and r2 can only be (0,0) or (1,1). There is no data race.&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: center">Core C1&lt;/th>
+&lt;th style="text-align: center">Core C2&lt;/th>
+&lt;th style="text-align: center">*&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: center">lock&lt;/td>
+&lt;td style="text-align: center">lock&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">S1: x = 1&lt;/td>
+&lt;td style="text-align: center">L1: r1 = y&lt;/td>
+&lt;td style="text-align: center">x and y initialy be 0&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">S2: y = 1&lt;/td>
+&lt;td style="text-align: center">L2: r2 = x&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">unlock&lt;/td>
+&lt;td style="text-align: center">unlock&lt;/td>
+&lt;td style="text-align: center">&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="references">References
+&lt;/h2>&lt;p>Sorin, D. J., Hill, M. D., Wood, D. A., &amp;amp; Nagarajan, V. (2020). &lt;em>A primer on memory consistency and cache coherence&lt;/em> (2nd ed., pp. 17-90). Springer Nature. &lt;a class="link" href="https://doi.org/10.1007/978-3-031-01764-3" target="_blank" rel="noopener"
+>https://doi.org/10.1007/978-3-031-01764-3&lt;/a>&lt;/p></description></item><item><title>Cache Coherence (1) - Introduction</title><link>https://isa-lai.com/blog/p/cache-coherence-1-introduction/</link><pubDate>Mon, 07 Oct 2024 07:50:47 -0400</pubDate><guid>https://isa-lai.com/blog/p/cache-coherence-1-introduction/</guid><description>&lt;img src="https://isa-lai.com/blog/cache/pipeline-coherence-interface.png" alt="Featured image of post Cache Coherence (1) - Introduction" />&lt;h2 id="what-is-consistency">What is Consistency?
+&lt;/h2>&lt;p>Consistency (a.k.a., memory consistency or memory model) is a property of a system that ensures all cache entries are consistent with the main memory. In other words, it is the process of ensuring that all copies of a memory location are updated to reflect the same value.&lt;/p>
+&lt;h2 id="what-is-coherence">What is Coherence?
+&lt;/h2>&lt;p>Coherence (a.k.a., cache coherence) is a mechanism to support consistency models in systems with caches.&lt;/p>
+&lt;h2 id="how-incoherence-happens">How Incoherence Happens
+&lt;/h2>&lt;p>A core is updating a cache line in its own cache, while this write is not yet propagated to other cores&amp;rsquo; caches.&lt;/p>
+&lt;p>For example in this figure, assuming that A is 42 in main memory and all cores&amp;rsquo; local caches. Core C1 updates the cache line with A = 43. However, this update has not been propagated to cores C2 yet, so C2&amp;rsquo;s A will be stale value 42, and tracked in loop forever.&lt;/p>
+&lt;p>&lt;img src="https://isa-lai.com/blog/blog/cache/example-of-incoherence.png"
+loading="lazy"
+alt="Example of Incoherence"
+>&lt;/p>
+&lt;h2 id="coherence-interface">Coherence Interface
+&lt;/h2>&lt;h3 id="consistency-agnostic-coherence">Consistency-agnostic coherence
+&lt;/h3>&lt;ul>
+&lt;li>Write is visible to other cores immediately before returning.&lt;/li>
+&lt;li>Synchronously.&lt;/li>
+&lt;li>Assume it is interacting with an atomic memory system with no caches present. Like cache is movoed and only memory is contained within the coherence box, like this figure.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://isa-lai.com/blog/blog/cache/pipeline-coherence-interface.png"
+loading="lazy"
+alt="pipeline-coherence-interface"
+>&lt;/p>
+&lt;h4 id="coherence-invariants">Coherence Invariants
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>Single-writer–multiple-reader (SWMR)&lt;/strong>:
+&lt;ul>
+&lt;li>At one moment, at one location:
+&lt;ul>
+&lt;li>One core can wrire and read.&lt;/li>
+&lt;li>Other cores can only read.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>Data-value invariant&lt;/strong>:
+&lt;ul>
+&lt;li>The value at the start of an epoch is the same as that at the end of its last read-write epoch.&lt;/li>
+&lt;li>epoch: a block of time when a core is reading or writing.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="maintaining-invarients">Maintaining Invarients:
+&lt;/h4>&lt;ul>
+&lt;li>When read:
+&lt;ul>
+&lt;li>Check if other cores have read-write state.&lt;/li>
+&lt;li>Send message to end any read-write state.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>When write:
+&lt;ul>
+&lt;li>Send message to let other cores to obtains current value.&lt;/li>
+&lt;li>Message ends any read-write or read-only, and new next read-write.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="consistency-directed-coherence">Consistency-directed coherence
+&lt;/h3>&lt;ul>
+&lt;li>Write can be visible to other cores after returning.&lt;/li>
+&lt;li>Asynchronously.&lt;/li>
+&lt;li>Need conherence protocol to ensure the order of writes.&lt;/li>
+&lt;/ul>
+&lt;h2 id="references">References
+&lt;/h2>&lt;p>Sorin, D. J., Hill, M. D., Wood, D. A., &amp;amp; Nagarajan, V. (2020). &lt;em>A primer on memory consistency and cache coherence&lt;/em> (2nd ed., pp. 1-16). Springer Nature. &lt;a class="link" href="https://doi.org/10.1007/978-3-031-01764-3" target="_blank" rel="noopener"
+>https://doi.org/10.1007/978-3-031-01764-3&lt;/a>&lt;/p></description></item><item><title>Welcome</title><link>https://isa-lai.com/blog/p/welcome/</link><pubDate>Sun, 06 Oct 2024 00:00:00 +0000</pubDate><guid>https://isa-lai.com/blog/p/welcome/</guid><description>&lt;img src="https://isa-lai.com/blog/p/welcome/cover.jpg" alt="Featured image of post Welcome" />&lt;p>Welcome to Isa&amp;rsquo;s Blog!&lt;/p>
+&lt;p>This is a blog about Isa&amp;rsquo;s learning and experience in the field of software engineering, compiler, and computer architecture.&lt;/p>
+&lt;p>Check out my &lt;a class="link" href="https://isa-lai.com/" target="_blank" rel="noopener"
+>profile&lt;/a> for more information about me.&lt;/p></description></item></channel></rss>
